@@ -1,6 +1,6 @@
-package dao;
+package com.comma.comma_rest.dao;
 
-import entity.Hodnotenie;
+import com.comma.comma_rest.entity.Hodnotenie;
 
 import java.util.List;
 

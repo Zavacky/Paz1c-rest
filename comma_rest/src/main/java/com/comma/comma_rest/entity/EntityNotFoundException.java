@@ -1,4 +1,4 @@
-package entity;
+package com.comma.comma_rest.entity;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -1,9 +1,11 @@
-package entity;
+package com.comma.comma_rest.entity;
 
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+//Nakoniec pretoze ani povodne nie je dokoncene
 
 @Data
 public class Sutaz {

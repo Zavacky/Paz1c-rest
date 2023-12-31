@@ -1,12 +1,11 @@
-package mySqlDao;
+package com.comma.comma_rest.mySqlDao;
 
-import dao.HodnotenieDao;
-import entity.Hodnotenie;
+import com.comma.comma_rest.dao.HodnotenieDao;
+import com.comma.comma_rest.entity.Hodnotenie;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
@@ -109,7 +108,7 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
             String deleteQuery = "DELETE FROM hodnotenie WHERE tanecne_teleso_id = ?";
             int rowsAffected = jdbcTemplate.update(deleteQuery, telesoId);
             if (rowsAffected == 0) {
-                throw new entity.EntityNotFoundException("Hodnotenie tanečného telesa s id " + telesoId + "sa nenašlo.");
+                throw new com.comma.comma_rest.entity.EntityNotFoundException("Hodnotenie tanečného telesa s id " + telesoId + "sa nenašlo.");
             }
         } catch (DataAccessException e) {
             e.printStackTrace();

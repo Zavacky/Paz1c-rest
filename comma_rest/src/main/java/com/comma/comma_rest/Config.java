@@ -1,7 +1,9 @@
 package com.comma.comma_rest;
 
-import dao.HodnotenieDao;
-import mySqlDao.MySqlHodnotenieDao;
+import com.comma.comma_rest.dao.HodnotenieDao;
+import com.comma.comma_rest.dao.PorotcaDao;
+import com.comma.comma_rest.mySqlDao.MySqlHodnotenieDao;
+import com.comma.comma_rest.mySqlDao.MySqlPorotcaDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,5 +20,10 @@ public class Config {
     @Bean
     public HodnotenieDao getSubjectDao(HodnotenieDao hodnotenieDao) {
         return new MySqlHodnotenieDao(jdbcTemplate, hodnotenieDao);
+    }
+
+    @Bean
+    public PorotcaDao getPorotcaDao() {
+        return new MySqlPorotcaDao(jdbcTemplate);
     }
 }
