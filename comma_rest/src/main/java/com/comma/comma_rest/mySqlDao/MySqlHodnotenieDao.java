@@ -15,11 +15,9 @@ import java.util.List;
 public class MySqlHodnotenieDao implements HodnotenieDao {
 
     private JdbcTemplate jdbcTemplate;
-    private HodnotenieDao hodnotenieDao;
 
-    public MySqlHodnotenieDao(JdbcTemplate jdbcTemplate, HodnotenieDao hodnotenieDao) {
+    public MySqlHodnotenieDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.hodnotenieDao = hodnotenieDao;
     }
 
     private RowMapper<Hodnotenie> hodnotenieRowMapper() {
