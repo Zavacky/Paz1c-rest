@@ -49,7 +49,4 @@ public class HodnotenieController {
     public void deleteByTanecneTelesoId(@PathVariable long telesoId){
         hodnotenieDao.deleteByTanecneTelesoId(telesoId);
     }
-
-
-
 }
