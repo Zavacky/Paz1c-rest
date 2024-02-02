@@ -19,11 +19,10 @@ public class MySqlKategoriaDao implements KategoriaDao {
         return new RowMapper<Kategoria>() {
             @Override
             public Kategoria mapRow(ResultSet rs, int rowNum) throws SQLException {
-                long id = rs.getInt("id");
+                long id = rs.getInt("id_kategoria");
                 String styl = rs.getString("styl");
                 String vekova_skupina = rs.getString("vekova_skupina");
                 String velkostna_skupina = rs.getString("velkostna_skupina");
-
                 Kategoria kategoria = new Kategoria(id, styl, vekova_skupina, velkostna_skupina);
                 return kategoria;
             }
@@ -36,7 +35,7 @@ public class MySqlKategoriaDao implements KategoriaDao {
 
     @Override
     public Kategoria findById(long id) {
-        String query = "SELECT  id, styl, vekova_skupina, velkostna_skupina FROM kategoria WHERE id = ?";
+        String query = "SELECT * FROM kategoria WHERE id_kategoria = ?";
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{id}, kategoriaRM());
         } catch (Exception e) {
@@ -46,7 +45,7 @@ public class MySqlKategoriaDao implements KategoriaDao {
 
     @Override
     public List<Kategoria> findAll() {
-        String query = "SELECT id, styl, vekova_skupina, velkostna_skupina FROM kategoria " + "ORDER BY id DESC";
+        String query = "SELECT * FROM kategoria " + "ORDER BY id_kategoria DESC";
         List<Kategoria> result = jdbcTemplate.query(query, kategoriaRM());
         return result;
     }

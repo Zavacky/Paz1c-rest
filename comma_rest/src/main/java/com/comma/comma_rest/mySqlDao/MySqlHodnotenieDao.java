@@ -24,10 +24,10 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
         return new RowMapper<Hodnotenie>() {
             @Override
             public Hodnotenie mapRow(ResultSet rs, int rowNum) throws SQLException {
-                long id = rs.getLong("id");
+                long id = rs.getLong("id_hodnotenie");
                 int hodnotenie = rs.getInt("hodnotenie");
-                long porotcaId = rs.getLong("porotca_id");
-                long tanecneTelesoId = rs.getLong("tanecne_teleso_id");
+                long porotcaId = rs.getLong("porotca_id_porotca");
+                long tanecneTelesoId = rs.getLong("tanecne_teleso_id_tanecne_teleso");
 
                 Hodnotenie hodnotenieObject = new Hodnotenie(id, hodnotenie, porotcaId, tanecneTelesoId);
                 return hodnotenieObject;
@@ -43,7 +43,7 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
 
     @Override
     public Hodnotenie getById(long id) {
-        String query = "SELECT * FROM hodnotenie WHERE id = ?";
+        String query = "SELECT * FROM hodnotenie WHERE id_hodnotenie = ?";
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{id}, hodnotenieRowMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -53,14 +53,14 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
 
     @Override
     public List<Hodnotenie> getByTelesoId(long tanecneTelesoId) {
-        String query = "SELECT * FROM hodnotenie WHERE tanecne_teleso_id = ?";
+        String query = "SELECT * FROM hodnotenie WHERE tanecne_teleso_id_tanecne_teleso = ?";
         return jdbcTemplate.query(query, new Object[]{tanecneTelesoId}, hodnotenieRowMapper());
     }
 
     @Override
     public Hodnotenie save(Hodnotenie hodnotenie) {
         if (hodnotenie.getId() == null) { //insert
-            String query = "INSERT INTO hodnotenie (hodnotenie, porotca_id, tanecne_teleso_id) "
+            String query = "INSERT INTO hodnotenie (hodnotenie, porotca_id_porotca, tanecne_teleso_id_tanecne_teleso) "
                     + "VALUES (?,?,?)";
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(con -> {
@@ -72,7 +72,7 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
             }, keyHolder);
             hodnotenie.setId(keyHolder.getKey().longValue());
         } else { // update
-            String query = "UPDATE hodnotenie SET hodnotenie = ? WHERE id = ?";
+            String query = "UPDATE hodnotenie SET hodnotenie = ? WHERE id_hodnotenie = ?";
             int rowsAffected = jdbcTemplate.update(query, hodnotenie.getHodnotenie(), hodnotenie.getId());
             if (rowsAffected != 1) {
                 return null;
@@ -83,7 +83,7 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
 
     @Override
     public Hodnotenie getByPorotcaIdAndTelesoId(long porotcaId, long tanecneTelesoId) {
-        String query = "SELECT * FROM hodnotenie WHERE porotca_id = ? AND tanecne_teleso_id = ?";
+        String query = "SELECT * FROM hodnotenie WHERE porotca_id_porotca = ? AND tanecne_teleso_id_tanecne_teleso = ?";
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{porotcaId, tanecneTelesoId}, hodnotenieRowMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -93,7 +93,7 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
 
     @Override
     public void delete(long id) {
-        String query = "DELETE FROM hodnotenie WHERE id = ?";
+        String query = "DELETE FROM hodnotenie WHERE id_hodnotenie = ?";
         int rowsAffected = jdbcTemplate.update(query, id);
         if (rowsAffected == 0) {
             throw new EntityNotFoundException("Hodnotenie s id " + id + "sa nenašlo.");
@@ -103,7 +103,7 @@ public class MySqlHodnotenieDao implements HodnotenieDao {
     @Override
     public void deleteByTanecneTelesoId(long telesoId) {
         try {
-            String deleteQuery = "DELETE FROM hodnotenie WHERE tanecne_teleso_id = ?";
+            String deleteQuery = "DELETE FROM hodnotenie WHERE tanecne_teleso_id_tanecne_teleso = ?";
             int rowsAffected = jdbcTemplate.update(deleteQuery, telesoId);
             if (rowsAffected == 0) {
                 throw new com.comma.comma_rest.entity.EntityNotFoundException("Hodnotenie tanečného telesa s id " + telesoId + "sa nenašlo.");

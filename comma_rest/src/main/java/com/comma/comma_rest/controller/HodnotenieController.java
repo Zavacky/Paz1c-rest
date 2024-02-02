@@ -15,7 +15,7 @@ public class HodnotenieController {
         this.hodnotenieDao = hodnotenieDao;
     }
 
-    @GetMapping("/hodnotenie/all")
+    @GetMapping("/hodnotenie")
     public List<Hodnotenie> getAll() {
         return hodnotenieDao.getAll();
     }

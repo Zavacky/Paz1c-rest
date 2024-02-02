@@ -21,12 +21,12 @@ public class MySqlPorotcaDao implements PorotcaDao {
         return new RowMapper<Porotca>() {
             @Override
             public Porotca mapRow(ResultSet rs, int rowNum) throws SQLException {
-                long id = rs.getLong("id");
+                long id = rs.getLong("id_porotca");
                 String meno = rs.getString("meno");
                 String priezvisko = rs.getString("priezvisko");
                 String uzivatelskeMeno = rs.getString("uzivatelske_meno");
                 String heslo = rs.getString("heslo");
-                boolean jeAdmin = rs.getBoolean("jeAdmin");
+                boolean jeAdmin = rs.getBoolean("je_admin");
 
                 Porotca porotca = new Porotca(id, meno, priezvisko, uzivatelskeMeno, heslo, jeAdmin);
                 return porotca;
@@ -40,7 +40,7 @@ public class MySqlPorotcaDao implements PorotcaDao {
 
     @Override
     public Porotca findById(long id) {
-        String query = "SELECT * FROM porotca WHERE id = ?";
+        String query = "SELECT * FROM porotca WHERE id_porotca = ?";
 
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{id}, porotcaRowMapper());
@@ -57,7 +57,7 @@ public class MySqlPorotcaDao implements PorotcaDao {
         Objects.requireNonNull(porotca.getUzivatelskeMeno(), "UzivatelskeMeno cannot be null");
         Objects.requireNonNull(porotca.getHeslo(), "Heslo cannot be null");
         if (porotca.getId() == null) { //insert
-            String query = "INSERT INTO porotca (meno, priezvisko, uzivatelske_meno, heslo, jeAdmin, sol) "
+            String query = "INSERT INTO porotca (meno, priezvisko, uzivatelske_meno, heslo, je_admin, salt) "
                     + "VALUES (?,?,?,?,?,?)";
 
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -82,28 +82,28 @@ public class MySqlPorotcaDao implements PorotcaDao {
 
     @Override
     public void pridajPorotcuDoSutaze(Long porotcaId, int sutazId) {
-        String query = "INSERT INTO sutaz_porotca (sutaz_id, porotca_id) VALUES (?, ?)";
+        String query = "INSERT INTO porotca_has_sutaz (sutaz_id_sutaz, porotca_id_porotca) VALUES (?, ?)";
         jdbcTemplate.update(query, sutazId, porotcaId);
     }
 
     @Override
     public List<Porotca> getPorotcoviaPreSutaz(int idSutaze) {
         String query = "SELECT porotca.* FROM porotca " +
-                "JOIN sutaz_porotca ON porotca.id = sutaz_porotca.porotca_id " +
-                "WHERE sutaz_porotca.sutaz_id = ?";
+                "JOIN porotca_has_sutaz ON porotca.id_porotca = porotca_has_sutaz.porotca_id_porotca " +
+                "WHERE porotca_has_sutaz.sutaz_id_sutaz = ?";
 
         return jdbcTemplate.query(query, new Object[]{idSutaze}, porotcaRowMapper());
     }
 
     @Override
     public void vymazPorotcuZoSutaze(Long porotcaId, int sutazId) {
-        String query = "DELETE FROM sutaz_porotca WHERE porotca_id = ? AND sutaz_id = ?";
+        String query = "DELETE FROM porotca_has_sutaz WHERE porotca_id_porotca = ? AND sutaz_id_sutaz = ?";
         jdbcTemplate.update(query, porotcaId, sutazId);
     }
 
     @Override
     public void update(Porotca porotca) {
-        String query = "UPDATE porotca SET meno = ?, priezvisko = ?, uzivatelske_meno = ?, heslo = ?, sol = ? WHERE id = ?";
+        String query = "UPDATE porotca SET meno = ?, priezvisko = ?, uzivatelske_meno = ?, heslo = ?, salt = ? WHERE id_porotca = ?";
         jdbcTemplate.update(query, porotca.getMeno(),
                 porotca.getPriezvisko(),
                 porotca.getUzivatelskeMeno(),
@@ -115,13 +115,13 @@ public class MySqlPorotcaDao implements PorotcaDao {
     @Override
     public boolean delete(Porotca porotca) {
         try {
-            String deleteSutazPorotcaQuery = "DELETE FROM sutaz_porotca WHERE porotca_id = ?";
+            String deleteSutazPorotcaQuery = "DELETE FROM porotca_has_sutaz WHERE porotca_id_porotca = ?";
             jdbcTemplate.update(deleteSutazPorotcaQuery, porotca.getId());
 
-            String deleteHodnotenieQuery = "DELETE FROM hodnotenie WHERE porotca_id = ?";
+            String deleteHodnotenieQuery = "DELETE FROM hodnotenie WHERE porotca_id_porotca = ?";
             jdbcTemplate.update(deleteHodnotenieQuery, porotca.getId());
 
-            String deletePorotcaQuery = "DELETE FROM porotca WHERE id = ?";
+            String deletePorotcaQuery = "DELETE FROM porotca WHERE id_porotca = ?";
             int affectedRows = jdbcTemplate.update(deletePorotcaQuery, porotca.getId());
 
             return affectedRows == 1;
@@ -154,14 +154,14 @@ public class MySqlPorotcaDao implements PorotcaDao {
 
     @Override
     public boolean isAdmin(String pouzivatelHeslo, String pouzivatelMeno) {
-        String sql = "SELECT jeAdmin from porotca where uzivatelske_meno = ?";
+        String sql = "SELECT je_admin from porotca where uzivatelske_meno = ?";
         int admin = jdbcTemplate.queryForObject(sql, Integer.class, pouzivatelMeno);
         return admin == 1;
     }
 
     @Override
     public String getSalt(String uzivatelskeMeno) {
-        String sql = "SELECT sol from porotca where uzivatelske_meno = ?";
+        String sql = "SELECT salt from porotca where uzivatelske_meno = ?";
         return jdbcTemplate.queryForObject(sql, String.class, uzivatelskeMeno);
     }
 
