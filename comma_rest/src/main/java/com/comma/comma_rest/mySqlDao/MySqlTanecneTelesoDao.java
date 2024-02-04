@@ -98,7 +98,7 @@ public class MySqlTanecneTelesoDao implements TanecneTelesoDao {
     }
 
     @Override
-    public List<TanecneTeleso> findAllBySutazId(int sutazId) {
+    public List<TanecneTeleso> findAllBySutazId(long sutazId) {
         String query = "SELECT id_tanecne_teleso, nazov, umiestnenie, hudba, klub, telefonne_cislo, tanecnici, email, kategoria_id_kategoria, sutaz_id_sutaz FROM tanecne_teleso " +
                 "WHERE sutaz_id_sutaz = ? ORDER BY id_tanecne_teleso";
         List<TanecneTeleso> result = jdbcTemplate.query(query, new Object[]{sutazId}, tanecneTelesoRM());
@@ -106,7 +106,7 @@ public class MySqlTanecneTelesoDao implements TanecneTelesoDao {
     }
 
     @Override
-    public List<TanecneTeleso> findAllBySutazIdKategoriaId(int sutazId, Long kategoriaId) {
+    public List<TanecneTeleso> findAllBySutazIdKategoriaId(long  sutazId, Long kategoriaId) {
         String query = "SELECT id_tanecne_teleso, nazov, umiestnenie, hudba, klub, tanecnici, telefonne_cislo, email, kategoria_id_kategoria, sutaz_id_sutaz FROM tanecne_teleso " +
                 "WHERE sutaz_id_sutaz = ? AND kategoria_id_kategoria = ? ORDER BY id_tanecne_teleso";
         List<TanecneTeleso> result = jdbcTemplate.query(query, new Object[]{sutazId, kategoriaId}, tanecneTelesoRM());

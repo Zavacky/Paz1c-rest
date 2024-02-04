@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class Sutaz {
 
-    private int id;
+    private long id;
     private String nazov;
     private LocalDate odDatum;
     private LocalDate doDatum;

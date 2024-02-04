@@ -1,11 +1,7 @@
 package com.comma.comma_rest;
 
-import com.comma.comma_rest.dao.HodnotenieDao;
-import com.comma.comma_rest.dao.KategoriaDao;
-import com.comma.comma_rest.dao.PorotcaDao;
-import com.comma.comma_rest.mySqlDao.MySqlHodnotenieDao;
-import com.comma.comma_rest.mySqlDao.MySqlKategoriaDao;
-import com.comma.comma_rest.mySqlDao.MySqlPorotcaDao;
+import com.comma.comma_rest.dao.*;
+import com.comma.comma_rest.mySqlDao.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,8 +26,16 @@ public class Config {
     }
 
     @Bean
-    KategoriaDao getKategoriaDao() {
+    public KategoriaDao getKategoriaDao() {
         return new MySqlKategoriaDao(jdbcTemplate);
+    }
+    @Bean
+    public SutazDao getSutazDao() {
+        return new MySqlSutazDao(jdbcTemplate);
+    }
+    @Bean
+    public TanecneTelesoDao getTanecneTelesoDao() {
+        return new MySqlTanecneTelesoDao(jdbcTemplate);
     }
 
 }

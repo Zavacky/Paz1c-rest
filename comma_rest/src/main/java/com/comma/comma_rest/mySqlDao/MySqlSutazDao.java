@@ -34,7 +34,7 @@ public class MySqlSutazDao implements SutazDao {
     }
 
     @Override
-    public Sutaz findById(int id) {
+    public Sutaz findById(long id) {
         String sql = "SELECT * FROM sutaz" + " WHERE id_sutaz = " + id;
         return jdbcTemplate.queryForObject(sql, sutazRM());
     }

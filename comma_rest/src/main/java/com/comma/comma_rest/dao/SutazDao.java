@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SutazDao {
 
-    Sutaz findById(int id);
+    Sutaz findById(long id);
 
     List<Sutaz> findAll();
 
