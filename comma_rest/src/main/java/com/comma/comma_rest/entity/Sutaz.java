@@ -16,6 +16,9 @@ public class Sutaz {
     private LocalDate doDatum;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    public Sutaz() {
+    }
+
 
     public Sutaz(String nazov, LocalDate odDatum, LocalDate doDatum) {
         this.nazov = nazov;
