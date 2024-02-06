@@ -24,8 +24,8 @@ public class PorotcaController {
         return porotcaDao.insert(porotca);
     }
 
-    @PutMapping("/porotca/pridajDoSutaze/")
-    public void pridajPorotcuDoSutaze(@RequestParam long porotcaId, @RequestParam int sutazId) {
+    @PutMapping("/porotca/pridajDoSutaze/{porotcaId}/{sutazId}")
+    public void pridajPorotcuDoSutaze(@PathVariable long porotcaId, @PathVariable int sutazId) {
         porotcaDao.pridajPorotcuDoSutaze(porotcaId, sutazId);
     }
 
@@ -34,8 +34,8 @@ public class PorotcaController {
         return porotcaDao.getPorotcoviaPreSutaz(id);
     }
 
-    @DeleteMapping("/porotca/vymazPorotcuZoSutaze")
-    public void vymazPorotcuZoSutaze(@RequestParam long porotcaId, @RequestParam int sutazId) {
+    @DeleteMapping("/porotca/vymazPorotcuZoSutaze/{porotcaId}/{sutazId}")
+    public void vymazPorotcuZoSutaze(@PathVariable long porotcaId, @PathVariable int sutazId) {
         porotcaDao.vymazPorotcuZoSutaze(porotcaId, sutazId);
     }
 

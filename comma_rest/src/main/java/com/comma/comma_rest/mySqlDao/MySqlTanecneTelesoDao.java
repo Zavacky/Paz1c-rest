@@ -101,8 +101,7 @@ public class MySqlTanecneTelesoDao implements TanecneTelesoDao {
     public List<TanecneTeleso> findAllBySutazId(long sutazId) {
         String query = "SELECT id_tanecne_teleso, nazov, umiestnenie, hudba, klub, telefonne_cislo, tanecnici, email, kategoria_id_kategoria, sutaz_id_sutaz FROM tanecne_teleso " +
                 "WHERE sutaz_id_sutaz = ? ORDER BY id_tanecne_teleso";
-        List<TanecneTeleso> result = jdbcTemplate.query(query, new Object[]{sutazId}, tanecneTelesoRM());
-        return result;
+        return jdbcTemplate.query(query, new Object[]{sutazId}, tanecneTelesoRM());
     }
 
     @Override
@@ -128,9 +127,8 @@ public class MySqlTanecneTelesoDao implements TanecneTelesoDao {
     @Override
     public boolean delete(TanecneTeleso tanecneTeleso) {
         String deleteQuery = "DELETE FROM tanecne_teleso WHERE id_tanecne_teleso = ?";
-        jdbcTemplate.update(deleteQuery, tanecneTeleso.getId());
-
-        return true;
+        int result = jdbcTemplate.update(deleteQuery, tanecneTeleso.getId());
+        return result != 0;
     }
 
 
