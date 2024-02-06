@@ -1,10 +1,12 @@
 package com.comma.comma_rest.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 public class Porotca {
     private Long id;
     private String meno;
@@ -13,9 +15,6 @@ public class Porotca {
     private String heslo;
     private boolean jeAdmin;
     private String sol;
-
-    public Porotca() {
-    }
 
     public Porotca(String meno, String priezvisko, String uzivatelskeMeno, String heslo, boolean jeAdmin) {
         this.meno = meno;

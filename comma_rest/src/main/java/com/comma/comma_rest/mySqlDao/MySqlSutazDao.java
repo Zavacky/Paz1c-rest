@@ -41,14 +41,14 @@ public class MySqlSutazDao implements SutazDao {
 
     @Override
     public List<Sutaz> findAll() {
-        String query = "SELECT * FROM sutaz " + "ORDER BY od_datnum";
+        String query = "SELECT * FROM sutaz " + "ORDER BY od_datum";
         List<Sutaz> result = jdbcTemplate.query(query, sutazRM());
         return result;
     }
 
     @Override
     public Sutaz insert(Sutaz sutaz) {
-        String query = "INSERT INTO sutaz (nazov, od_datnum, do_datum) VALUES (?, ?, ?)";
+        String query = "INSERT INTO sutaz (nazov, od_datum, do_datum) VALUES (?, ?, ?)";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
@@ -69,12 +69,14 @@ public class MySqlSutazDao implements SutazDao {
 
     @Override
     public void update(Sutaz sutaz) {
-        String query = "UPDATE sutaz SET nazov = ?, sutaz.od_datnum = ?, do_datum = ? WHERE id_sutaz = ?";
+        String query = "UPDATE sutaz SET nazov = ?, sutaz.od_datum = ?, do_datum = ? WHERE id_sutaz = ?";
         jdbcTemplate.update(query, sutaz.getNazov(), sutaz.getOdDatum(), sutaz.getDoDatum(), sutaz.getId());
     }
 
     @Override
     public boolean delete(Sutaz sutaz) {
-        return false;
+        String query = "DELETE FROM sutaz WHERE id_sutaz = ?";
+        int result = jdbcTemplate.update(query, sutaz.getId());
+        return result != 0;
     }
 }

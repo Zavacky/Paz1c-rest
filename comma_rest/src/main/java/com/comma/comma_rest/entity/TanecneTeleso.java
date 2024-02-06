@@ -1,10 +1,12 @@
 package com.comma.comma_rest.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 public class TanecneTeleso {
     private Long id;
     private String nazov;
@@ -16,9 +18,6 @@ public class TanecneTeleso {
     private String email;
     private String telefonneCislo;
     private String tanecnici;
-
-    public TanecneTeleso() {
-    }
 
     public TanecneTeleso(Long id, String nazov, String hudba, String klub, long kategoriaId, long sutazId, String email, String telefonneCislo, String tanecnici) {
         this.id = id;

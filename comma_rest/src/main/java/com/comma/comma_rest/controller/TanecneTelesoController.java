@@ -15,7 +15,7 @@ public class TanecneTelesoController {
     }
 
     @PostMapping("/tanecneTeleso/new")
-    public TanecneTeleso insert(TanecneTeleso tanecneTeleso) {
+    public TanecneTeleso insert(@RequestBody TanecneTeleso tanecneTeleso) {
         return tanecneTelesoDao.insert(tanecneTeleso);
     }
 
@@ -30,13 +30,13 @@ public class TanecneTelesoController {
     }
 
     @GetMapping("/tanecneTeleso/getAllBySutazId/{id}")
-    public List<TanecneTeleso> findAllBySutazId(@PathVariable long sutazId) {
-        return null;
+    public List<TanecneTeleso> findAllBySutazId(@PathVariable long id) {
+        return tanecneTelesoDao.findAllBySutazId(id);
     }
 
     @GetMapping("/tanecneTeleso/getAllBySutazIdKategoriaId/{id}/{kategoriaId}")
-    public List<TanecneTeleso> findAllBySutazIdKategoriaId(@PathVariable long sutazId, @PathVariable Long kategoriaId) {
-        return tanecneTelesoDao.findAllBySutazIdKategoriaId(sutazId, kategoriaId);
+    public List<TanecneTeleso> findAllBySutazIdKategoriaId(@PathVariable long id, @PathVariable Long kategoriaId) {
+        return tanecneTelesoDao.findAllBySutazIdKategoriaId(id, kategoriaId);
     }
 
     @PutMapping("/tanecneTeleso/update")

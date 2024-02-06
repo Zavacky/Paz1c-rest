@@ -1,6 +1,7 @@
 package com.comma.comma_rest.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 //Nakoniec pretoze ani povodne nie je dokoncene
 
 @Data
+@NoArgsConstructor
 public class Sutaz {
 
     private long id;

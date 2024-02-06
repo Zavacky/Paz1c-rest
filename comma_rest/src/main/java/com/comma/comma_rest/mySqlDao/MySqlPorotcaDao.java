@@ -124,7 +124,7 @@ public class MySqlPorotcaDao implements PorotcaDao {
             String deletePorotcaQuery = "DELETE FROM porotca WHERE id_porotca = ?";
             int affectedRows = jdbcTemplate.update(deletePorotcaQuery, porotca.getId());
 
-            return affectedRows == 1;
+            return affectedRows != 0;
         } catch (DataAccessException e) {
             e.printStackTrace();
             return false;
@@ -134,8 +134,12 @@ public class MySqlPorotcaDao implements PorotcaDao {
     @Override
     public boolean isPasswordCorrect(String hashovane, String pouzivatelMeno) {
         String sql = "SELECT heslo from porotca where uzivatelske_meno = ?";
-        String heslo = jdbcTemplate.queryForObject(sql, String.class, pouzivatelMeno);
-        return heslo.equals(hashovane);
+        try {
+            String heslo = jdbcTemplate.queryForObject(sql, String.class, pouzivatelMeno);
+            return heslo.equals(hashovane);
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
     }
 
     @Override
@@ -155,14 +159,22 @@ public class MySqlPorotcaDao implements PorotcaDao {
     @Override
     public boolean isAdmin(String pouzivatelHeslo, String pouzivatelMeno) {
         String sql = "SELECT je_admin from porotca where uzivatelske_meno = ?";
-        int admin = jdbcTemplate.queryForObject(sql, Integer.class, pouzivatelMeno);
-        return admin == 1;
+        try {
+            int admin = jdbcTemplate.queryForObject(sql, Integer.class, pouzivatelMeno);
+            return admin == 1;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
     }
 
     @Override
     public String getSalt(String uzivatelskeMeno) {
         String sql = "SELECT salt from porotca where uzivatelske_meno = ?";
-        return jdbcTemplate.queryForObject(sql, String.class, uzivatelskeMeno);
+        try {
+            String salt = jdbcTemplate.queryForObject(sql, String.class, uzivatelskeMeno);
+            return salt;
+        }catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
-
 }
