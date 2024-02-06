@@ -32,7 +32,7 @@ public class MySqlTanecneTelesoDao implements TanecneTelesoDao {
                 String email = rs.getString("email");
                 long kategoria_id = rs.getLong("kategoria_id_kategoria");
                 long sutaz_id = rs.getLong("sutaz_id_sutaz");
-                TanecneTeleso teleso = new TanecneTeleso(id, nazov, umiestnenie, hudba, klub, kategoria_id, sutaz_id, telefonne_cislo, email, tanecnici);
+                TanecneTeleso teleso = new TanecneTeleso(id, nazov, umiestnenie, hudba, klub, kategoria_id, sutaz_id, email, telefonne_cislo, tanecnici);
                 return teleso;
             }
         };
